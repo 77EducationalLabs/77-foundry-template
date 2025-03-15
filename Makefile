@@ -1,11 +1,7 @@
 # Load environment variables from .env file
 include .env
 
-.PHONY: all anvil clean coverage deploy dev fork format fund help install snapshot test
-
-# Rollback environment
-all:
-	clean remove install update build
+.PHONY: anvil clean coverage deploy dev fork format fund help install snapshot test
 
 # Clean the environment
 clean:
