@@ -22,7 +22,7 @@
 </div>
 <br>
 
-We believe that Education and Security are Web3's main challenges, and we decided to solve them. To do so, we offer hands-on Institutional Training and on-demand courses in Portuguese. These courses approach the learning process with a security-first mindset, ensuring students will receive the market best practices to become solid professionals to tackle all challenges the ecosystem may face.
+We believe that education and security are Web3's main challenges, and we decided to solve them. To do so, we offer hands-on Institutional Training and on-demand courses in Portuguese. These courses approach the learning process with a security-first mindset, ensuring students receive the market best practices to become solid professionals to tackle all challenges the ecosystem may face.
 
 This repository is part of this goal.
 
@@ -31,7 +31,7 @@ This repository is part of this goal.
 ## Repository framework
 This repo aims to provide a framework for developers to build their projects on top of, as a template.
 
-The 77 Foundry Template offers the structure for developers to create, deploy and test a protocol, working as a checkbox guide to check and ensure most of needed steps are taken.
+The 77 Foundry Template offers the structure for developers to create, deploy, and test a protocol. It works as a checkbox guide to ensure that most of the needed steps are taken.
 
 <br>
 
@@ -49,7 +49,7 @@ forge init --template https://github.com/77EducationalLabs/77-foundry-template.g
 <br>
 
 **2. Update the `.env.example` to `.env` and add environmental variables.**
-   - NEVER ADD A PRIVATE KEY IN PLAIN TEXT IN YOU `.ENV` FILE
+   - NEVER ADD A PRIVATE KEY IN PLAIN TEXT IN YOUR `.ENV` FILE
 
 <br>
 
