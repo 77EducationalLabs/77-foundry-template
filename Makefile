@@ -1,57 +1,74 @@
+# Makefile for Foundry project
+
 # Load environment variables from .env file
 include .env
+export $(shell sed 's/=.*//' .env)
 
-.PHONY: anvil build clean coverage deploy dev fork format fund help install snapshot test
+.PHONY: anvil build clean coverage deploy fork_testnet fork_mainnet forked_test format fund help install snapshot test
 
-# Clean the environment
-clean:
-	forge clean
-
-# Remove modules
-remove :
-	rm -rf .gitmodules && rm -rf .git/modules/* && rm -rf lib && touch .gitmodules && git add . && git commit -m "modules"
-
-# Install Dependencies
-install:
-	forge install cyfrin/foundry-devops --no-commit && forge install smartcontractkit/chainlink-brownie-contracts --no-commit && forge install foundry-rs/forge-std --no-commit && forge install openzeppelin/openzeppelin-contracts --no-commit
-
-# Update Dependencies
-update:
-	forge update
+# Generate Keys
+anvil :
+	anvil -m 'test test test test test test test test test test test junk' --steps-tracing --block-time 1 
 
 # Build contracts
 build:
 	forge build
 
-# Execute tests
-test:
-	forge test 
+# Clean the environment
+clean:
+	forge clean
 
 # Test Coverage
 coverage:
-	forge coverage --report debug > coverage-report.txt
+	forge coverage --report debug > coverage-report.md
+	
+# Deploy contract
+# Use ARGS="--network ONE_OF_THE_OPTIONS_IN_THE_END_OF_THE_FILE" after the request on the terminal.
+deploy:
+	@forge script script/DeployInit.s.sol:DeployInit $(NETWORK_ARGS)
+
+# Initialize forked network with anvil
+fork_mainnet:
+	anvil --fork-url ${BASE_MAINNET_RPC}
+
+fork_testnet:
+	anvil --fork-url ${BASE_SEPOLIA_RPC}
+
+# Execute Forked tests
+forked_test:
+	forge test --match-contract DiamondForked.t.sol -vvv
+
+format:
+	forge fmt
+
+# Install Dependencies
+install:
+	forge install foundry-rs/forge-std --no-commit && forge install openzeppelin/openzeppelin-contracts --no-commit && forge install smartcontractkit/chainlink-brownie-contracts --no-commit
+
+# Remove modules
+remove :
+	rm -rf .gitmodules && rm -rf .git/modules/* && rm -rf lib && touch .gitmodules && git add . && git commit -m "modules"
 
 # Gas Snapshot
 snapshot:
 	forge snapshot
 
-format:
-	forge fmt
+# Execute tests
+test:
+	forge test
 
-# Initialize forked network with anvil
-fork:
-	anvil --fork-url $(CHAIN_RPC_URL)
+# Update Dependencies
+update:
+	forge update
 
-# Generate Keys
-anvil :; anvil -m 'test test test test test test test test test test test junk' --steps-tracing --block-time 1 
-
-NETWORK_ARGS := --rpc-url http://localhost:8545 --account $(LOCAL_KEY) --broadcast
+NETWORK_ARGS := --rpc-url http://localhost:8545 --account ANVIL_TEST --broadcast -vvv
 
 # Change Args if is sepolia - Update according to your needs
-ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
-	NETWORK_ARGS := --rpc-url $(SEPOLIA_RPC_URL) --account $(PRIVATE_KEY) --broadcast --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvv
+# Update --account $(live_burner) with your foundry encrypted key.
+ifeq ($(findstring --network base-sepolia,$(ARGS)),--network base-sepolia)
+	NETWORK_ARGS := --rpc-url ${BASE_SEPOLIA_RPC} --account live_burner --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY} -vvv
 endif
 
-# Deploy contract
-deploy:
-	@forge script script/Deploy.s.sol:DeployScript $(NETWORK_ARGS)
+ifeq ($(findstring --network base-mainnet,$(ARGS)),--network base-mainnet)
+	NETWORK_ARGS := --rpc-url ${BASE_MAINNET_RPC} --account live_burner --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY} -vvv
+endif
