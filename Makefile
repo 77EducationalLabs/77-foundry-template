@@ -4,7 +4,7 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
-.PHONY: anvil build clean coverage deploy fork_testnet fork_mainnet forked_test format fund help install snapshot test
+.PHONY: anvil build clean coverage deploy fork_testnet fork_mainnet forked_test format fund help install snapshot test verify
 
 # Generate Keys
 anvil :
@@ -25,7 +25,7 @@ coverage:
 # Deploy contract
 # Use ARGS="--network ONE_OF_THE_OPTIONS_IN_THE_END_OF_THE_FILE" after the request on the terminal.
 deploy:
-	@forge script script/DeployInit.s.sol:DeployInit $(NETWORK_ARGS)
+	@forge script script/Deploy.s.sol:DeployScript $(NETWORK_ARGS)
 
 # Initialize forked network with anvil
 fork_mainnet:
@@ -43,7 +43,7 @@ format:
 
 # Install Dependencies
 install:
-	forge install foundry-rs/forge-std --no-commit && forge install openzeppelin/openzeppelin-contracts --no-commit && forge install smartcontractkit/chainlink-brownie-contracts --no-commit
+	forge install foundry-rs/forge-std --no-commit && forge install openzeppelin/openzeppelin-contracts --no-commit && forge install smartcontractkit/chainlink-brownie-contracts --no-commit && forge install Uniswap/v3-core --no-commit && Uniswap/v3-periphery --no-commit && forge install Uniswap/swap-router-contracts --no-commit
 
 # Remove modules
 remove :
@@ -66,9 +66,9 @@ NETWORK_ARGS := --rpc-url http://localhost:8545 --account ANVIL_TEST --broadcast
 # Change Args if is sepolia - Update according to your needs
 # Update --account $(live_burner) with your foundry encrypted key.
 ifeq ($(findstring --network base-sepolia,$(ARGS)),--network base-sepolia)
-	NETWORK_ARGS := --rpc-url ${BASE_SEPOLIA_RPC} --account live_burner --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY} -vvv
+	NETWORK_ARGS := --rpc-url ${BASE_SEPOLIA_RPC} --account live_burner --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY} -vvvvv
 endif
 
-ifeq ($(findstring --network base-mainnet,$(ARGS)),--network base-mainnet)
-	NETWORK_ARGS := --rpc-url ${BASE_MAINNET_RPC} --account live_burner --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY} -vvv
+ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
+	NETWORK_ARGS := --rpc-url ${SEPOLIA_RPC_URL} --account live_burner --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY} -vvvvv
 endif

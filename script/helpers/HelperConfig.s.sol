@@ -14,7 +14,7 @@ contract HelperConfig is Script {
     //////////////////////////////////////////////////////////////*/
     /**
         *@notice Struct to store base information for deployment
-
+        * Update it with the variables you will need.
     */
     struct NetworkConfig {
         address admin;
@@ -29,7 +29,7 @@ contract HelperConfig is Script {
     uint256 constant LOCAL_CHAIN_ID = 31337;
     ///@notice Update with the chains you plan to use
     uint256 constant BASE_SEPOLIA_CHAIN_ID = 84532;
-    uint256 constant BASE_MAINNET_CHAIN_ID = 8453;
+    uint256 constant SEPOLIA_CHAIN_ID = 11155111;
 
     ///@notice Local network state variables
     NetworkConfig public s_localNetworkConfig;
@@ -48,7 +48,7 @@ contract HelperConfig is Script {
     constructor() {
         ///@notice initialize Testnet/Mainnet only
         s_networkConfigs[BASE_SEPOLIA_CHAIN_ID] = getSepoliaBaseConfig();
-        s_networkConfigs[BASE_MAINNET_CHAIN_ID] = getMainnetBaseConfig();
+        s_networkConfigs[SEPOLIA_CHAIN_ID] = getMainnetBaseConfig();
     }
 
     /**
@@ -83,9 +83,9 @@ contract HelperConfig is Script {
         }
     }
 
-    function getMainnetBaseConfig() public view returns (NetworkConfig memory mainnetNetworkConfig) {
+    function getSepoliaConfig() public view returns (NetworkConfig memory sepoliaNetworkConfig) {
         ///@notice update the values with the real values from the main network
-        mainnetNetworkConfig = NetworkConfig({
+        sepoliaNetworkConfig = NetworkConfig({
             ///@notice vm.envAddress("NAME_OF_THE_VARIABLE_ON_.ENV_FILE")
             admin: vm.envAddress("ADMIN_TESTNET_PUBLIC_KEY"),
             multisig: address(0),
@@ -96,9 +96,9 @@ contract HelperConfig is Script {
         });
     }
 
-    function getSepoliaBaseConfig() public view returns (NetworkConfig memory sepoliaNetworkConfig) {
+    function getSepoliaBaseConfig() public view returns (NetworkConfig memory sepoliaBaseNetworkConfig) {
         ///@notice update the values with the real values from the test network
-        sepoliaNetworkConfig = NetworkConfig({
+        sepoliaBaseNetworkConfig = NetworkConfig({
             ///@notice vm.envAddress("NAME_OF_THE_VARIABLE_ON_.ENV_FILE")
             admin: vm.envAddress("ADMIN_TESTNET_PUBLIC_KEY"),
             multisig: address(0),
