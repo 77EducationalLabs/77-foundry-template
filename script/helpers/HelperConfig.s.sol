@@ -48,7 +48,7 @@ contract HelperConfig is Script {
     constructor() {
         ///@notice initialize Testnet/Mainnet only
         s_networkConfigs[BASE_SEPOLIA_CHAIN_ID] = getSepoliaBaseConfig();
-        s_networkConfigs[SEPOLIA_CHAIN_ID] = getMainnetBaseConfig();
+        s_networkConfigs[SEPOLIA_CHAIN_ID] = getSepoliaConfig();
     }
 
     /**
