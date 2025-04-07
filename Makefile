@@ -43,7 +43,7 @@ format:
 
 # Install Dependencies
 install:
-	forge install foundry-rs/forge-std --no-commit && forge install openzeppelin/openzeppelin-contracts --no-commit && forge install smartcontractkit/chainlink-brownie-contracts --no-commit && forge install Uniswap/v3-core --no-commit && Uniswap/v3-periphery --no-commit && forge install Uniswap/swap-router-contracts --no-commit
+	forge install foundry-rs/forge-std --no-commit && forge install openzeppelin/openzeppelin-contracts --no-commit && forge install smartcontractkit/chainlink-brownie-contracts --no-commit
 
 # Remove modules
 remove :
