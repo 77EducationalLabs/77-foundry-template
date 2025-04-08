@@ -18,23 +18,22 @@ import { BaseTests } from "./BaseTests.t.sol";
     *@notice overrides the setUp function
 */
 contract ForkedHelper is BaseTests {
-
     ///@notice recover the RPC_URLs from the .env file
     string BASE_SEP_RPC_URL = vm.envString("BASE_SEP_RPC_URL");
 
     ///@notice variable store each forked chain
-    uint256 baseSepolia;
+    uint256 s_baseSepolia;
 
-    ///@notice always use CONSTANTS instead of Magic Numbers> Like this ones: 
+    ///@notice always use CONSTANTS instead of Magic Numbers > For example, this ones: 
     uint24 constant USDC_WETH_POOL_FEE = 500; //0.05% - Uniswap Variables
     uint256 constant USDC_INITIAL_BALANCE = 10_000*10**6; // Token Amounts
 
     function setUp() public override {
         ///@notice Create Forked Environment
-        baseSepolia = vm.createFork(BASE_SEP_RPC_URL);
+        s_baseSepolia = vm.createFork(BASE_SEP_RPC_URL);
         
         ///@notice to select the fork we will use. You can change between them on tests
-        vm.selectFork(baseSepolia);
+        vm.selectFork(s_baseSepolia);
 
         ///@notice deploys the Scripts
         s_deploy = new DeployScript();

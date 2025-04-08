@@ -19,10 +19,6 @@ contract HelperConfig is Script {
     struct NetworkConfig {
         address admin;
         address multisig;
-        address protocolYouAreIntegrating;
-        address chainlinkRouter;
-        uint256 etc;
-        bytes32 etcEtc;
     }
 
     ///@notice Magic Number Removal
@@ -52,13 +48,6 @@ contract HelperConfig is Script {
     }
 
     /**
-        *@notice Function to access chain configuration based on `chainId`
-    */
-    function getConfig() public returns (NetworkConfig memory) {
-        return getConfigByChainId(block.chainid);
-    }
-
-    /**
         *@notice function to update information based on deployments happening on main scripts
         *@notice it will update base on chainId
     */
@@ -67,17 +56,21 @@ contract HelperConfig is Script {
     }
 
     /**
+        *@notice Function to access chain configuration based on `chainId`
+    */
+    function getConfig() public returns (NetworkConfig memory) {
+        return getConfigByChainId(block.chainid);
+    }
+
+    /**
         *@notice function to query chain information by chainId
         *@notice if it doesn't exist, it will create
     */
     function getConfigByChainId(uint256 _chainId) public returns (NetworkConfig memory) {
-        if (_chainId != LOCAL_CHAIN_ID) {
-            return s_networkConfigs[_chainId];
-            ///@notice check for a specific part of your protocol that will not break the rest of the conditionals
-        } else if(s_networkConfigs[_chainId].chainlinkRouter != address(0)) {
-            return s_networkConfigs[_chainId];
-        } else if (_chainId == LOCAL_CHAIN_ID) {
+        if(_chainId == LOCAL_CHAIN_ID){
             return getOrCreateAnvilEthConfig();
+        } else if (_chainId != LOCAL_CHAIN_ID) {
+            return s_networkConfigs[_chainId];
         } else {
             revert HelperConfig__InvalidChainId();
         }
@@ -88,11 +81,7 @@ contract HelperConfig is Script {
         sepoliaNetworkConfig = NetworkConfig({
             ///@notice vm.envAddress("NAME_OF_THE_VARIABLE_ON_.ENV_FILE")
             admin: vm.envAddress("ADMIN_TESTNET_PUBLIC_KEY"),
-            multisig: address(0),
-            protocolYouAreIntegrating:  address(0),
-            chainlinkRouter:  address(0),
-            etc: 0,
-            etcEtc: 0
+            multisig: address(0)
         });
     }
 
@@ -101,11 +90,7 @@ contract HelperConfig is Script {
         sepoliaBaseNetworkConfig = NetworkConfig({
             ///@notice vm.envAddress("NAME_OF_THE_VARIABLE_ON_.ENV_FILE")
             admin: vm.envAddress("ADMIN_TESTNET_PUBLIC_KEY"),
-            multisig: address(0),
-            protocolYouAreIntegrating:  address(0),
-            chainlinkRouter:  address(0),
-            etc: 0,
-            etcEtc: 0
+            multisig: address(0)
         });
     }
 
@@ -115,13 +100,9 @@ contract HelperConfig is Script {
         ///@notice add the deployed mock on the above config before calling it.
         s_localNetworkConfig = NetworkConfig({
             ///@notice you can create address like this, on you testing. So you can use this params
-            admin: address(77),
-            multisig: address(777),
             ///@notice here, you will probable need to deploy the mock for this guys. So, you will do it before calling this
-            protocolYouAreIntegrating:  address(0),
-            chainlinkRouter:  address(0),
-            etc: 0,
-            etcEtc: 0
+            admin: address(77),
+            multisig: address(777)
         });
 
         return s_localNetworkConfig;

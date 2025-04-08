@@ -31,14 +31,10 @@ contract BaseTests is Test {
 
     //Addresses
     address constant s_owner = address(77);
-    address constant s_multiSig = address(777);
     address constant s_user02 = address(2);
     address constant s_user03 = address(3);
     address constant s_user04 = address(4);
     address constant s_user05 = address(5);
-
-    //Utils - Fake Addresses
-    address uniswapRouter = makeAddr("uniswapRouter");
 
     function setUp() public virtual {
         ///@notice 1. Deploys DeployInit script

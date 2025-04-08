@@ -5,6 +5,6 @@ import { console } from "forge-std/Test.sol";
 
 import { BaseTests } from "test/helpers/BaseTests.t.sol";
 
-contract ContractOneTest is BaseTests {
+contract UnitTest is BaseTests {
     //test something
 }

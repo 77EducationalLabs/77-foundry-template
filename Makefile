@@ -66,7 +66,7 @@ NETWORK_ARGS := --rpc-url http://localhost:8545 --account ANVIL_TEST --broadcast
 # Change Args if is sepolia - Update according to your needs
 # Update --account $(live_burner) with your foundry encrypted key.
 ifeq ($(findstring --network base-sepolia,$(ARGS)),--network base-sepolia)
-	NETWORK_ARGS := --rpc-url ${BASE_SEPOLIA_RPC} --account live_burner --broadcast --verify --etherscan-api-key ${ETHERSCAN_API_KEY} -vvvvv
+	NETWORK_ARGS := --rpc-url ${BASE_SEPOLIA_RPC_URL} --account live_burner --broadcast --verify --etherscan-api-key ${BASESCAN_API_KEY} -vvvvv
 endif
 
 ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
