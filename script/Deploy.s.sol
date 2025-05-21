@@ -22,14 +22,17 @@ contract DeployScript is Script {
         *@notice So, you will need to update the signature to call on the CLI
     */
     function run() external returns(HelperConfig helperConfig_){
+        ///@notice deploy the Helper script
         helperConfig_ = new HelperConfig();
-        ///@notice query info store on HelperConfig's NetworkConfig to use with in the script
+
+        ///@notice query info stored on HelperConfig's NetworkConfig to use with in the deployment script
         HelperConfig.NetworkConfig memory config = helperConfig_.getConfig();
         
-        ///@notice foundry tool to deploy the contract
-        ///Place your contracts inside
+        ///@notice cheat code to deploy contracts
         vm.startBroadcast();
-        ///access the values to use in deployments
+        ///Place your contracts inside
+        
+        ///access all config variables to use in deployments
         config.admin;        
 
         vm.stopBroadcast();

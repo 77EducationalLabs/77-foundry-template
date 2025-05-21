@@ -64,7 +64,7 @@ contract HelperConfig is Script {
 
     /**
         *@notice function to query chain information by chainId
-        *@notice if it doesn't exist, it will create
+        *@notice if info is empty, it will create
     */
     function getConfigByChainId(uint256 _chainId) public returns (NetworkConfig memory) {
         if(_chainId == LOCAL_CHAIN_ID){
@@ -76,6 +76,10 @@ contract HelperConfig is Script {
         }
     }
 
+    /**
+        *@notice Function to return data to perform a Sepolia deploy
+        *@notice add/update variables accordingly to your needs
+    */
     function getSepoliaConfig() public view returns (NetworkConfig memory sepoliaNetworkConfig) {
         ///@notice update the values with the real values from the main network
         sepoliaNetworkConfig = NetworkConfig({
@@ -85,22 +89,17 @@ contract HelperConfig is Script {
         });
     }
 
-    function getSepoliaBaseConfig() public view returns (NetworkConfig memory sepoliaBaseNetworkConfig) {
-        ///@notice update the values with the real values from the test network
-        sepoliaBaseNetworkConfig = NetworkConfig({
-            ///@notice vm.envAddress("NAME_OF_THE_VARIABLE_ON_.ENV_FILE")
-            admin: vm.envAddress("ADMIN_TESTNET_PUBLIC_KEY"),
-            multisig: address(0)
-        });
-    }
-
+    /**
+        *@notice Function to return data to perform a local deploy
+        *@notice add/update variables accordingly to your needs
+        *@dev External integrations must be deployed by this function
+    */
     function getOrCreateAnvilEthConfig() public returns (NetworkConfig memory) {
 
         ///@notice deploy mocks, if need. Like: Chainlink Routers, Feeds, etc.
         ///@notice add the deployed mock on the above config before calling it.
         s_localNetworkConfig = NetworkConfig({
-            ///@notice you can create address like this, on you testing. So you can use this params
-            ///@notice here, you will probable need to deploy the mock for this guys. So, you will do it before calling this
+            ///@notice you can create address like this, on your testing. So you can use this params
             admin: address(77),
             multisig: address(777)
         });
